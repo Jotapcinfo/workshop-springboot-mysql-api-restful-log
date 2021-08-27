@@ -1,7 +1,6 @@
 package br.com.portaljmti.log.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +26,8 @@ public class ClienteController {
 	@GetMapping("/clientes/{clienteId}")
 	public ResponseEntity<Cliente> buscar(@PathVariable long clienteId) {
 		
-		Optional <Cliente> cliente = clienteRepository.findById(clienteId);
-		
-		if (cliente.isPresent()) {
-			return ResponseEntity.ok(cliente.get());
-		}
-		    return ResponseEntity.notFound().build();
-		
+		return clienteRepository.findById(clienteId)
+				.map(cliente -> ResponseEntity.ok(cliente))
+				.orElse(ResponseEntity.notFound().build());
 	}
 }
