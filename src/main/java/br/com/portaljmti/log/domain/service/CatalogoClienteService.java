@@ -15,6 +15,11 @@ public class CatalogoClienteService {
 	
 	private ClienteRepository clienteRepository;
 	
+	public Cliente buscar(long clienteId) {
+		return clienteRepository.findById(clienteId)
+		.orElseThrow(() -> new NegocioException("Cliente não encontrado"));	
+	}
+	
 	@Transactional
 	public Cliente salvar(Cliente cliente) {
 		
